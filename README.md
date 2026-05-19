@@ -1,6 +1,7 @@
 # NPR 4660 — Toepassingsrichtlijn NEN 2660-reeks
 
-Informatieve website bij de NPR 4660, met praktijkvoorbeelden van de NEN 2660-reeks. De site toont per figuur de beschrijving, het diagram en (waar beschikbaar) de RDF/Turtle-implementatie.
+Gepubliceerde website bij de NPR 4660, met praktijkvoorbeelden van de NEN 2660-reeks. De site toont per figuur de beschrijving, het diagram en (waar beschikbaar) de RDF/Turtle-implementatie.
+De figuren zijn onderdeel van de NPR4660 zelf. Deze website toont RDF uitwerkingen (in de W3C standaard: Turtle).
 
 ## Projectstructuur
 
@@ -19,7 +20,7 @@ npr4660/
 │           │   └── ...
 │           └── ...
 ├── generate_manifest.py             # Genereert docs/data/manifest.json
-├── serve.py                         # Lokale server met live reload
+├── serve.py                         # Lokale server met live reload voor lokale ontwikkeling/preview.
 └── .github/workflows/pages.yml     # GitHub Actions: deploy naar GitHub Pages
 ```
 
@@ -37,12 +38,6 @@ De server:
 - genereert `manifest.json` automatisch bij opstarten
 - bewaakt `docs/data/` op bestandswijzigingen
 - herlaadt de browser automatisch zodra content aangepast wordt
-
-Optioneel een andere poort:
-
-```bash
-python serve.py 9000
-```
 
 ## Nieuwe figuur toevoegen
 
