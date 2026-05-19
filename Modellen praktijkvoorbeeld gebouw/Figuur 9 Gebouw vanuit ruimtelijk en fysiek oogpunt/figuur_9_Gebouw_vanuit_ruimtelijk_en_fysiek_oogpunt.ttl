@@ -1,0 +1,50 @@
+@prefix ex: <http://example.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+
+ex:Gebouw a owl:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    rdfs:subClassOf [
+        a owl:Restriction ; 
+        owl:onProperty nen2660:hasPart ; 
+        owl:someValuesFrom ex:DiscreetGebouw 
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty nen2660:hasPart ;
+        owl:someValuesFrom ex:InpandigeRuimteGebouw
+    ] .
+
+ex:InpandigeRuimteGebouw a owl:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion .
+
+ex:DiscreetGebouw a owl:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject .
+
+ex:Etageruimte a owl:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity .
+
+ex:Gipswand a owl:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity .
+
+ex:Gebouw_123 a ex:Gebouw
+
+ex:DiscreetGebouw_123 a ex:DiscreetGebouw .
+
+ex:InpandigeRuimteGebouw_123 a ex:InpandigeRuimteGebouw .
+
+ex:Gipswand_123 a ex:Gipswand .
+
+ex:Etageruimte_123 a ex:Etageruimte . 
+
+ex:Gebouw_123 nen2660:hasPart ex:Discreetgebouw_123, 
+                                ex:InpandigeRuimteGebouw_123 .
+
+ex:InpandigeRuimteGebouw_123 nen2660:hasPart ex:Etageruimte_123 .
+
+ex:DiscreetGebouw_123 nen2660:hasPart ex:Gipswand_123 .
+
+
+
