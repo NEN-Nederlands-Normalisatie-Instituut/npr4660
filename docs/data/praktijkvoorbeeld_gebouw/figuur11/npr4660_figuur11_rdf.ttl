@@ -1,36 +1,34 @@
 @prefix ex: <http://example.org/id/> .
 @prefix nen2660: <https://w3id.org/nen2660/def#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/>
-@prefix ifc: <https://w3id.org/ifc/IFC4#>
+@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
+@prefix ifc: <https://w3id.org/ifc/IFC4#> .
 
-ex:DiscreetGebouw a owl:Class ;
+ex:DiscreetGebouw a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:DraagConstructie a owl:Class ;
+ex:DraagConstructie a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:DragendeWand a owl:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+ex:DragendeWand a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
     rdfs:subClassOf ifc4_3:IfcProduct .
 
-ex:VentilatieSysteemEenheid a owl:Class ;
+ex:VentilatieSysteemEenheid a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:Ventilator a owl:Class ; 
-    rdfs:subClassOf nen2660:DiscreteObject .
+ex:Ventilator a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
     rdfs:subClassOf ifc4_3:IfcProduct .
 
-ex:DraagConstructieSysteem a owl:Class ;
+ex:DraagConstructieSysteem a rdfs:Class ;
     rdfs:subClassOf ifc4_3:IfcSystem .
 
-ex:VentilatieSysteem a owl:Class ;
+ex:VentilatieSysteem a rdfs:Class ;
     rdfs:subClassOf ifc4_3:IfcSystem .
-
 
 ex:DiscreetGebouw_123 a ex:DiscreetGebouw .
 ex:Ventilator_123 a ex:Ventilator .

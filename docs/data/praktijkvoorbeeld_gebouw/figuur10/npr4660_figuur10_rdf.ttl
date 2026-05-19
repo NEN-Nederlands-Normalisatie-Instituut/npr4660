@@ -1,38 +1,37 @@
 @prefix ex: <http://example.org/id/> .
 @prefix nen2660: <https://w3id.org/nen2660/def#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 
-ex:DiscreetGebouw a owl:Class ;
+ex:DiscreetGebouw a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:Kunstvoorwerp a owl:Class ;
+ex:Kunstvoorwerp a rdfs:Class ;
     rdfs:subClassOf nen2660:TechnicalEntity .
 
-ex:GipsWand a owl:Class ;
+ex:GipsWand a rdfs:Class ;
     rdfs:subClassOf nen2660:TechnicalEntity .
 
-ex:VentilatieSysteemEenheid a owl:Class ;
+ex:VentilatieSysteemEenheid a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:Ventilator a owl:Class ; 
+ex:Ventilator a rdfs:Class ; 
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:DraagConstructie a owl:Class ;
+ex:DraagConstructie a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:DragendeWand a owl:Class ; 
+ex:DragendeWand a rdfs:Class ; 
     rdfs:subClassOf nen2660:DiscreteObject .
 
-ex:Bouwdeel a owl:Class ; 
+ex:Bouwdeel a rdfs:Class ; 
     rdfs:subClassOf nen2660:FunctionalEntity ;
     skos:prefLabel "VERA 4.1 Bouwdeel"@nl ;
     dct:source <https://www.coraveraonline.nl/index.php/Id-d8a421c6-6b1d-d52a-afc7-a247bea2022c> .
 
-ex:BouwkundigElement a owl:Class ; 
+ex:BouwkundigElement a rdfs:Class ; 
     rdfs:subClassOf nen2660:FunctionalEntity ;
     skos:prefLabel "VERA 4.1 BouwkundigElement"@nl ;
     dct:source <https://www.coraveraonline.nl/index.php/Id-d8a421c6-6b1d-d52a-afc7-a247bea2022c> .
@@ -59,7 +58,7 @@ ex:DiscreetGebouw_123 a ex:DiscreetGebouw ;
                                         ex:DraagConstructie_123 . 
         
 ex:Kunstvoorwerp_123 a ex:Kunstvoorwerp ;
-                        ex:naam "Muurmozaïek" .
+                        ex:naam "Muurmozaïek"@nl .
     
 ex:GipsWand_123 a ex:GipsWand .
         
@@ -72,5 +71,5 @@ ex:Bouwdeel_VentilatieSysteem_abc nen2660:isImplementedBy ex:VentilatieSysteem_1
 ex:Bouwkundigelement_Ventilator_bcd nen2660:isImplementedBy ex:Ventilator_123 .
 ex:Bouwkundigelement_DragendeWand_def nen2660:isImplementedBy ex:DragendeWand_123 . 
 
-ex:Bouwdeel_DraagConstructie_789 nen2660:hasPart ex:Bouwdeel_DragendeWand_def . 
+ex:Bouwdeel_DraagConstructie_789 nen2660:hasPart ex:Bouwkundigelement_DragendeWand_def .
 ex:Bouwdeel_VentilatieSysteem_abc nen2660:hasPart ex:Bouwkundigelement_Ventilator_bcd .
