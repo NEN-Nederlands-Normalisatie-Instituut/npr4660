@@ -1,34 +1,515 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site in aanbouw</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPR 4660</title>
+
+  <!-- Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+
+  <!-- Highlight.js core + Turtle language (via highlight.js-turtle by redmer, same stack as CROW/ReSpec) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/redmer/highlightjs-turtle@v2.1.0/src/languages/turtle.min.js"></script>
+  <script>hljs.registerLanguage('turtle', hljsDefineTurtle);</script>
+
+  <style>
+    :root {
+      --blue:       #0082AC;
+      --blue-mid:   #006A8E;
+      --blue-light: #E0F3F8;
+      --orange:     #E5750A;
+      --bg:         #F2F4F8;
+      --white:      #FFFFFF;
+      --text:       #1A1A1A;
+      --muted:      #666666;
+      --border:     #CDD5E3;
+      --header-h:   60px;
+      --sidebar-w:  300px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-rows: var(--header-h) 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .nen-logo {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 3px;
+    }
+
+    .header-sep {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .header-title {
+      color: rgba(255,255,255,0.88);
+      font-size: 14px;
+    }
+
+    .header-badge {
+      margin-left: auto;
+      background: var(--orange);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Sidebar ── */
+    nav {
+      grid-column: 1;
+      grid-row: 2;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: var(--header-h);
+      height: calc(100vh - var(--header-h));
+      overflow-y: auto;
+      padding-bottom: 32px;
+    }
+
+    .nav-group {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--muted);
+      padding: 16px 18px 8px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
+    .nav-group:first-child {
+      border-top: none;
+      padding-top: 20px;
+      margin-top: 0;
+    }
+
+    nav a {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 18px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13.5px;
+      line-height: 1.4;
+      border-left: 3px solid transparent;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+
+    nav a .fig-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    nav a:hover           { background: var(--blue-light); color: var(--blue-mid); }
+    nav a.active          { background: var(--blue-light); color: var(--blue); border-left-color: var(--orange); font-weight: 600; }
+
+    /* ── Main ── */
+    main {
+      grid-column: 2;
+      grid-row: 2;
+      padding: 36px 48px 60px;
+    }
+
+    section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 36px 40px;
+      margin-bottom: 28px;
+      scroll-margin-top: calc(var(--header-h) + 20px);
+    }
+
+    /* ── Readme ── */
+    .readme h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 3px solid var(--orange);
+      line-height: 1.3;
+    }
+
+    .readme p { line-height: 1.75; color: #3A3A3A; margin-top: 8px; }
+
+    .readme code {
+      background: #F0F3F8;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+
+    /* ── Figure image ── */
+    .fig-img-wrap {
+      margin: 28px 0 24px;
+      text-align: center;
+      background: #FAFBFC;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+    }
+
+    .fig-img-wrap img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+    /* ── TTL ── */
+    .ttl-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 28px 0 8px;
+    }
+
+    .ttl-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+    }
+
+    .ttl-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: #E8F0FE;
+      color: var(--blue-mid);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    pre {
+      background: #F6F8FA !important;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 12.5px;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    pre code.hljs {
+      padding: 20px 24px !important;
+      background: transparent !important;
+      font-family: "Consolas", "Menlo", "Monaco", monospace;
+    }
+
+    /* ── Loading ── */
+    #loading {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .load-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue-mid);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--blue);
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      padding: 16px 28px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    footer strong { color: #fff; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>De site is in aanbouw en zal live gaan samen met de NPR4660</h1>
-    </div>
+
+<header>
+  <span class="nen-logo">NEN</span>
+  <div class="header-sep"></div>
+  <span class="header-title" id="header-title">NPR 4660</span>
+  <span class="header-badge">Onder constructie</span>
+</header>
+
+<nav id="nav"></nav>
+
+<main id="main">
+  <div id="loading">
+    <div class="load-spinner"></div>
+    Inhoud wordt geladen…
+  </div>
+</main>
+
+<footer>
+  <strong>NEN</strong>
+  <span>Nederlands Normalisatie-instituut</span>
+  <span style="margin-left:auto">NPR 4660 — Toepassingsrichtlijn NEN 2660-reeks</span>
+</footer>
+
+<script>
+const DATA_ROOT = 'data';
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+async function fetchText(url) {
+  try {
+    const r = await fetch(url);
+    return r.ok ? r.text() : null;
+  } catch { return null; }
+}
+
+async function fetchJSON(url) {
+  try {
+    const r = await fetch(url);
+    return r.ok ? r.json() : null;
+  } catch { return null; }
+}
+
+function folderLabel(name) {
+  return name.replace(/_/g, ' ').replace(/\b./g, c => c.toUpperCase());
+}
+
+function extractH1(md) {
+  const m = md.match(/^#\s+(.+)/m);
+  return m ? m[1].replace(/\s+/g, ' ').trim() : null;
+}
+
+// ── Discovery ────────────────────────────────────────────────────────────────
+// Primary:  reads data/manifest.json  (works on GitHub Pages + serve.py)
+// Fallback: parses directory listings (works with python -m http.server)
+
+async function discover() {
+  const manifest = await fetchJSON(`${DATA_ROOT}/manifest.json`);
+  if (manifest?.examples?.length) {
+    // Derive path for each figuur so the rest of the code is uniform
+    for (const ex of manifest.examples) {
+      for (const fig of ex.figuren) {
+        fig.path = `${DATA_ROOT}/${ex.id}/${fig.id}`;
+      }
+    }
+    return manifest.examples;
+  }
+  return discoverFromListing();
+}
+
+// Directory-listing fallback ──────────────────────────────────────────────────
+
+function parseLinks(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return [...doc.querySelectorAll('a[href]')]
+    .map(a => a.getAttribute('href'))
+    .filter(h => h && !h.startsWith('?') && !h.startsWith('/') && h !== '../');
+}
+
+async function listDir(path) {
+  const url = path.endsWith('/') ? path : path + '/';
+  const html = await fetchText(url);
+  return html ? parseLinks(html) : [];
+}
+
+async function discoverFromListing() {
+  const dataLinks = await listDir(DATA_ROOT);
+  const exDirs = dataLinks.filter(h => h.endsWith('/') && !h.startsWith('.'));
+
+  const examples = await Promise.all(exDirs.map(async exDir => {
+    const exId   = exDir.slice(0, -1);
+    const exPath = `${DATA_ROOT}/${exId}`;
+    const exLinks = await listDir(exPath);
+    const figDirs = exLinks.filter(h => h.endsWith('/') && /^figuur\d+\/$/.test(h));
+
+    const figuren = (await Promise.all(figDirs.map(async figDir => {
+      const figId   = figDir.slice(0, -1);
+      const figPath = `${exPath}/${figId}`;
+      const links   = await listDir(figPath);
+      if (!links.includes('README.md')) return null;
+      return {
+        id:      figId,
+        nr:      parseInt(figId.match(/\d+/)[0]),
+        path:    figPath,
+        pngFile: links.find(h => h.toLowerCase().endsWith('.png')) ?? null,
+        ttlFile: links.find(h => h.toLowerCase().endsWith('.ttl')) ?? null,
+      };
+    }))).filter(Boolean).sort((a, b) => a.nr - b.nr);
+
+    return figuren.length ? { id: exId, label: folderLabel(exId), figuren } : null;
+  }));
+
+  return examples.filter(Boolean);
+}
+
+// ── Rendering ────────────────────────────────────────────────────────────────
+
+function buildSection(sectionId, fig, readme, ttlText) {
+  const sec = document.createElement('section');
+  sec.id = sectionId;
+
+  // Markdown
+  const readmeDiv = document.createElement('div');
+  readmeDiv.className = 'readme';
+  readmeDiv.innerHTML = marked.parse(readme);
+  sec.appendChild(readmeDiv);
+
+  // Image
+  if (fig.pngFile) {
+    const wrap = document.createElement('div');
+    wrap.className = 'fig-img-wrap';
+    const img = document.createElement('img');
+    img.src = `${fig.path}/${fig.pngFile}`;
+    img.alt = `Figuur ${fig.nr}`;
+    img.onerror = () => wrap.remove();
+    wrap.appendChild(img);
+    sec.appendChild(wrap);
+  }
+
+  // TTL
+  if (ttlText) {
+    const hdr = document.createElement('div');
+    hdr.className = 'ttl-header';
+    hdr.innerHTML = '<span class="ttl-label">RDF / Turtle</span><span class="ttl-badge">TTL</span>';
+    sec.appendChild(hdr);
+
+    const pre  = document.createElement('pre');
+    const code = document.createElement('code');
+    code.className = 'language-turtle';
+    code.textContent = ttlText;
+    pre.appendChild(code);
+    hljs.highlightElement(code);
+    sec.appendChild(pre);
+  }
+
+  return sec;
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+
+async function init() {
+  const nav  = document.getElementById('nav');
+  const main = document.getElementById('main');
+
+  const examples = await discover();
+
+  if (!examples.length) {
+    main.innerHTML = `
+      <div id="loading" style="color:#c00">
+        <strong>Geen inhoud gevonden.</strong><br><br>
+        Start de ontwikkelserver vanuit de projectroot:<br>
+        <code>python serve.py</code>
+      </div>`;
+    return;
+  }
+
+  nav.innerHTML  = '';
+  main.innerHTML = '';
+
+  // Update header title with discovered example names
+  if (examples.length === 1) {
+    document.getElementById('header-title').textContent =
+      `NPR 4660 – ${examples[0].label}`;
+  }
+
+  const allNavLinks = [];
+
+  for (const ex of examples) {
+    // Nav group header
+    const grp = document.createElement('div');
+    grp.className = 'nav-group';
+    grp.textContent = ex.label;
+    nav.appendChild(grp);
+
+    // Load all figuren in this example in parallel
+    const figData = await Promise.all(ex.figuren.map(async fig => {
+      const [readme, ttlText] = await Promise.all([
+        fetchText(`${fig.path}/README.md`),
+        fig.ttlFile ? fetchText(`${fig.path}/${fig.ttlFile}`) : null,
+      ]);
+      return { fig, readme, ttlText };
+    }));
+
+    for (const { fig, readme, ttlText } of figData) {
+      if (!readme) continue;
+
+      // Use compound id to avoid collisions between examples
+      const sectionId = `${ex.id}--${fig.id}`;
+      const title = extractH1(readme) ?? `Figuur ${fig.nr}`;
+
+      const a = document.createElement('a');
+      a.href = `#${sectionId}`;
+      const span = document.createElement('span');
+      span.className = 'fig-title';
+      span.textContent = title;
+      span.title = title;
+      a.appendChild(span);
+      nav.appendChild(a);
+      allNavLinks.push(a);
+
+      main.appendChild(buildSection(sectionId, fig, readme, ttlText));
+    }
+  }
+
+  // Active nav link tracking via IntersectionObserver
+  const observer = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      allNavLinks.forEach(a =>
+        a.classList.toggle('active', a.getAttribute('href') === `#${e.target.id}`)
+      );
+    }
+  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+  main.querySelectorAll('section').forEach(s => observer.observe(s));
+
+  // Honour initial URL hash
+  if (location.hash) {
+    document.querySelector(location.hash)?.scrollIntoView();
+  }
+}
+
+init().catch(err => {
+  document.getElementById('main').innerHTML =
+    `<div id="loading" style="color:#c00">Fout bij laden: ${err.message}</div>`;
+});
+</script>
+
 </body>
 </html>

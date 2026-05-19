@@ -1,0 +1,88 @@
+{
+  "examples": [
+    {
+      "id": "praktijkvoorbeeld_gebouw",
+      "label": "Praktijkvoorbeeld Gebouw",
+      "figuren": [
+        {
+          "id": "figuur9",
+          "nr": 9,
+          "pngFile": "npr4660_figuur9.png",
+          "ttlFile": "npr4660_figuur9_rdf.ttl"
+        },
+        {
+          "id": "figuur10",
+          "nr": 10,
+          "pngFile": "npr4660_figuur10.png",
+          "ttlFile": "npr4660_figuur10_rdf.ttl"
+        },
+        {
+          "id": "figuur11",
+          "nr": 11,
+          "pngFile": "npr4660_figuur11.png",
+          "ttlFile": "npr4660_figuur11_rdf.ttl"
+        },
+        {
+          "id": "figuur13",
+          "nr": 13,
+          "pngFile": "npr4660_figuur13.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur14",
+          "nr": 14,
+          "pngFile": "npr4660_figuur14.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur17",
+          "nr": 17,
+          "pngFile": "npr4660_figuur17.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur18",
+          "nr": 18,
+          "pngFile": "npr4660_figuur18.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur19",
+          "nr": 19,
+          "pngFile": "npr4660_figuur19.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur20",
+          "nr": 20,
+          "pngFile": "npr4660_figuur20.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur21",
+          "nr": 21,
+          "pngFile": "npr4660_figuur21.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur23",
+          "nr": 23,
+          "pngFile": "npr4660_figuur23.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur24",
+          "nr": 24,
+          "pngFile": "npr4660_figuur24.png",
+          "ttlFile": null
+        },
+        {
+          "id": "figuur25",
+          "nr": 25,
+          "pngFile": "npr4660_figuur25.png",
+          "ttlFile": null
+        }
+      ]
+    }
+  ]
+}
