@@ -16,25 +16,32 @@
     owl:imports <https://w3id.org/nen2660/rdfs/def> .
 
 ex-ont:DiscreetGebouw a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Discreet gebouw"@nl .
 
 ex-ont:Kunstvoorwerp a rdfs:Class ;
-    rdfs:subClassOf nen2660:TechnicalEntity .
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Kunstvoorwerp"@nl .
 
 ex-ont:GipsWand a rdfs:Class ;
-    rdfs:subClassOf nen2660:TechnicalEntity .
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Gipswand"@nl .
 
 ex-ont:VentilatieSysteemEenheid a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Ventilatiesysteem eenheid"@nl .
 
 ex-ont:Ventilator a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Ventilator"@nl .
 
 ex-ont:DraagConstructie a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Draagconstructie"@nl .
 
 ex-ont:DragendeWand a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Dragende wand"@nl .
 
 ex-ont:Bouwdeel a rdfs:Class ;
     rdfs:subClassOf nen2660:FunctionalEntity ;

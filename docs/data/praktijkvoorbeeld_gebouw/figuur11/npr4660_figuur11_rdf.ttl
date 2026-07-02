@@ -6,6 +6,7 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
 @prefix ifc: <https://w3id.org/ifc/IFC4#> .
 
@@ -16,27 +17,34 @@
     owl:imports <https://w3id.org/nen2660/rdfs/def> .
 
 ex-ont:DiscreetGebouw a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Discreet gebouw"@nl .
 
 ex-ont:DraagConstructie a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Draagconstructie"@nl .
 
 ex-ont:DragendeWand a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject ;
-    rdfs:subClassOf ifc4_3:IfcProduct .
+    rdfs:subClassOf ifc4_3:IfcProduct ;
+    skos:prefLabel "Dragende wand"@nl .
 
 ex-ont:VentilatieSysteemEenheid a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Ventilatiesysteem eenheid"@nl .
 
 ex-ont:Ventilator a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject ;
-    rdfs:subClassOf ifc4_3:IfcProduct .
+    rdfs:subClassOf ifc4_3:IfcProduct ;
+    skos:prefLabel "Ventilator"@nl .
 
 ex-ont:DraagConstructieSysteem a rdfs:Class ;
-    rdfs:subClassOf ifc4_3:IfcSystem .
+    rdfs:subClassOf ifc4_3:IfcSystem ;
+    skos:prefLabel "Draagconstructiesysteem"@nl .
 
 ex-ont:VentilatieSysteem a rdfs:Class ;
-    rdfs:subClassOf ifc4_3:IfcSystem .
+    rdfs:subClassOf ifc4_3:IfcSystem ;
+    skos:prefLabel "Ventilatiesysteem"@nl .
 
 ex-ont:DiscreetGebouwShape a sh:NodeShape ;
     sh:targetClass ex-ont:DiscreetGebouw ;

@@ -29,17 +29,21 @@ ex-ont:Gebouw a owl:Class ;
     ] .
 
 ex-ont:InpandigeRuimteGebouw a rdfs:Class ;
-    rdfs:subClassOf nen2660:SpatialRegion .
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Inpandige ruimte gebouw"@nl .
 
 ex-ont:DiscreetGebouw a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Discreet gebouw"@nl .
 
 ex-ont:Etageruimte a rdfs:Class ;
     rdfs:subClassOf nen2660:SpatialRegion ;
-    rdfs:subClassOf nen2660:TechnicalEntity .
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Etageruimte"@nl .
 
 ex-ont:Gipswand a rdfs:Class ;
-    rdfs:subClassOf nen2660:TechnicalEntity .
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Gipswand"@nl .
 
 ex-data:Gebouw_123 a ex-ont:Gebouw .
 
