@@ -1,0 +1,57 @@
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex-ont:Gebouw a owl:Class ;
+    skos:definition "Bouwwerk dat begrensd, betreedbaar en afsluitbaar is."@nl, "A structure that is enclosed, accessible and lockable."@en ;
+    skos:prefLabel "Gebouw"@nl , "Building"@en ;
+    rdfs:subClassOf nen2660:PhysicalObject .
+
+ex-ont:InpandigeRuimteGebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion .
+
+ex-ont:DiscreetGebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject .
+
+ex-ont:Etageruimte a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity .
+
+ex-ont:Gipswand a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity .
+
+ex-ont:GebouwShape a sh:NodeShape ;
+    sh:targetClass ex-ont:Gebouw ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:DiscreetGebouw ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een Gebouw moet minimaal één DiscreetGebouw als deel hebben."@nl ;
+    ] ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:InpandigeRuimteGebouw ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een Gebouw moet minimaal één InpandigeRuimteGebouw als deel hebben."@nl ;
+    ] .
+
+ex-data:Gebouw_123 a ex-ont:Gebouw .
+
+ex-data:DiscreetGebouw_123 a ex-ont:DiscreetGebouw .
+
+ex-data:InpandigeRuimteGebouw_123 a ex-ont:InpandigeRuimteGebouw .
+
+ex-data:Gipswand_123 a ex-ont:Gipswand .
+
+ex-data:Etageruimte_123 a ex-ont:Etageruimte .
+
+ex-data:Gebouw_123 nen2660:hasPart ex-data:DiscreetGebouw_123,
+                                    ex-data:InpandigeRuimteGebouw_123 .
+
+ex-data:InpandigeRuimteGebouw_123 nen2660:hasPart ex-data:Etageruimte_123 .
+
+ex-data:DiscreetGebouw_123 nen2660:hasPart ex-data:Gipswand_123 .
