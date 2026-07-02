@@ -1,0 +1,118 @@
+# Figuur 23 – Onroerend en roerend goed als functionele entiteit
+# Verduidelijkt het onderscheid tussen vaste bouwdelen (onroerend goed, via hasPart/heeftDeel)
+# en losse objecten zoals meubels (roerend goed, via contains/bevat).
+# Gebouwconstructie_qrst bevat de onroerende bouwdelen; Appartementencomplex_abcd bevat de meubels.
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.organization.com/def/figuur23/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 23"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: functionele entiteiten ---
+
+ex-ont:Appartementencomplex a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Appartementencomplex"@nl .
+
+ex-ont:OnroerendGoed a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Onroerend goed"@nl ;
+    skos:definition "Vaste bestanddelen van een gebouw die niet verplaatsbaar zijn."@nl .
+
+ex-ont:RoerendGoed a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Roerend goed"@nl ;
+    skos:definition "Losse objecten die verplaatsbaar zijn."@nl .
+
+# --- Klassen: fysieke constructie (onroerend goed) ---
+
+ex-ont:Gebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:prefLabel "Gebouw"@nl .
+
+ex-ont:Gebouwconstructie a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Gebouwconstructie"@nl .
+
+ex-ont:Pannendak a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Pannendak"@nl .
+
+ex-ont:Deur a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Deur"@nl .
+
+ex-ont:Raam a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Raam"@nl .
+
+ex-ont:Vloer a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Vloer"@nl .
+
+ex-ont:Keukenblok a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Keukenblok"@nl .
+
+ex-ont:Wand a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Wand"@nl .
+
+ex-ont:Deurkozijn a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Deurkozijn"@nl .
+
+ex-ont:Raamkozijn a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Raamkozijn"@nl .
+
+ex-ont:Trap a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Trap"@nl .
+
+ex-ont:Postkast a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Postkast"@nl .
+
+ex-ont:Ventilatierooster a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Ventilatierooster"@nl .
+
+ex-ont:Meubel a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Meubel"@nl .
+
+# --- Instanties ---
+
+# Het appartementencomplex als functionele entiteit.
+ex-data:Appartementencomplex_abcd a ex-ont:Appartementencomplex .
+
+# Roerend goed: losse meubels die het complex bevat maar geen vast onderdeel zijn.
+ex-data:Kast_ijkl a ex-ont:Meubel .
+ex-data:Tafel_uvwx a ex-ont:Meubel .
+
+# De fysieke gebouwinstanties die het complex implementeren.
+ex-data:Appartementencomplex_gebouw_efgh a ex-ont:Gebouw .
+ex-data:Gebouwconstructie_qrst a ex-ont:Gebouwconstructie .
+
+# --- Relaties ---
+
+# Het functionele appartementencomplex wordt geïmplementeerd door het gebouw en de constructie.
+ex-data:Appartementencomplex_abcd nen2660:isImplementedBy ex-data:Appartementencomplex_gebouw_efgh,
+                                                           ex-data:Gebouwconstructie_qrst .
+
+# Roerend goed: meubels zijn niet vast verbonden, modellering via contains (bevat).
+ex-data:Appartementencomplex_abcd nen2660:contains ex-data:Kast_ijkl,
+                                                    ex-data:Tafel_uvwx .

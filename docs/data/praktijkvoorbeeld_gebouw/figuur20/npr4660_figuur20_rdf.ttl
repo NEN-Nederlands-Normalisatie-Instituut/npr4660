@@ -1,0 +1,144 @@
+# Figuur 20 – Totaaloverzicht gebouwruimte, zone, bepalingsmethode en geometrie
+# Combineert de modellen van figuur 17 (netto/bruto/tarra), figuur 18 (SOSA-metingen, GeoSPARQL)
+# en figuur 19 (brandcompartiment) in één samenhangend overzicht.
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+
+<http://data.organization.com/def/figuur20/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 20"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# Klassen – ruimten
+
+ex-ont:Vergaderzaal a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Vergaderzaal"@nl .
+
+ex-ont:InpandigeRuimte a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Inpandige ruimte"@nl .
+
+ex-ont:NettoInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    rdfs:subClassOf ifc4_3:IfcSpace ;
+    skos:prefLabel "Netto-inhoud"@nl .
+
+ex-ont:BrutoInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Bruto-inhoud"@nl .
+
+ex-ont:TarraInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Tarra-inhoud"@nl .
+
+# Klassen – wanden en compartimenten
+
+ex-ont:Wand a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcWall ;
+    skos:prefLabel "Wand"@nl .
+
+ex-ont:Constructiewand a rdfs:Class ;
+    rdfs:subClassOf ex-ont:Wand ;
+    skos:prefLabel "Constructiewand"@nl .
+
+ex-ont:SeparatieWand a rdfs:Class ;
+    rdfs:subClassOf ex-ont:Wand ;
+    skos:prefLabel "Separatiewand"@nl .
+
+ex-ont:BrandcompartimentFunctie a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Brandcompartiment functie"@nl .
+
+ex-ont:BrandcompartimentImplementatie a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf ifc4_3:IfcSpatialZone ;
+    skos:prefLabel "Brandcompartiment implementatie"@nl .
+
+ex-ont:NEN2580Procedure a rdfs:Class ;
+    rdfs:subClassOf sosa:Procedure ;
+    skos:prefLabel "NEN 2580 bepaling"@nl .
+
+# --- Instanties ---
+
+ex-data:Vergaderzaal_11_32 a ex-ont:Vergaderzaal .
+ex-data:NettoInhoudVergaderzaalruimte_11_32 a ex-ont:NettoInhoud .
+ex-data:BrutoInhoudVergaderzaalruimte_11_32 a ex-ont:BrutoInhoud .
+ex-data:TarraInhoudWand_1234 a ex-ont:TarraInhoud .
+ex-data:Wand_1234 a ex-ont:Wand .
+ex-data:Constructiewand_7689 a ex-ont:Constructiewand .
+ex-data:SeparatieWand_5678 a ex-ont:SeparatieWand .
+ex-data:BrandcompartimentFunctie_xyz a ex-ont:BrandcompartimentFunctie .
+ex-data:BrandcompartimentImplementatie_xyz a ex-ont:BrandcompartimentImplementatie .
+
+# --- Relaties: netto/bruto/tarra ---
+
+ex-data:Vergaderzaal_11_32 nen2660:isImplementedBy ex-data:NettoInhoudVergaderzaalruimte_11_32,
+                                                    ex-data:BrutoInhoudVergaderzaalruimte_11_32 .
+
+ex-data:BrutoInhoudVergaderzaalruimte_11_32 nen2660:contains ex-data:TarraInhoudWand_1234 .
+ex-data:TarraInhoudWand_1234 nen2660:contains ex-data:Wand_1234 .
+
+# --- Relaties: brandcompartiment ---
+
+ex-data:Constructiewand_7689 nen2660:contains ex-data:SeparatieWand_5678 .
+ex-data:BrandcompartimentImplementatie_xyz nen2660:isBoundedBy ex-data:Constructiewand_7689 .
+ex-data:BrandcompartimentFunctie_xyz nen2660:isImplementedBy ex-data:BrandcompartimentImplementatie_xyz .
+ex-data:BrandcompartimentFunctie_xyz nen2660:hasPart ex-data:NettoInhoudVergaderzaalruimte_11_32 .
+
+# --- Relaties: NEN 2580 procedures en SOSA-observaties ---
+
+ex-data:NEN2580NettoInhoudBepaling a ex-ont:NEN2580Procedure ;
+    skos:prefLabel "NEN 2580 Netto Inhoud Bepaling"@nl .
+
+ex-data:NEN2580BrutoInhoudBepaling a ex-ont:NEN2580Procedure ;
+    skos:prefLabel "NEN 2580 Bruto Inhoud Bepaling"@nl .
+
+ex-data:NEN2580TarraInhoudBepaling a ex-ont:NEN2580Procedure ;
+    skos:prefLabel "NEN 2580 Tarra Inhoud Bepaling"@nl .
+
+# SOSA-observaties koppelen meetresultaten aan de betreffende ruimten via de procedure.
+
+ex-data:Netto_meting_11_32 a sosa:Observation ;
+    sosa:hasFeatureOfInterest ex-data:NettoInhoudVergaderzaalruimte_11_32 ;
+    sosa:usedProcedure ex-data:NEN2580NettoInhoudBepaling ;
+    sosa:hasSimpleResult "135 m3" .
+
+ex-data:Bruto_meting_11_32 a sosa:Observation ;
+    sosa:hasFeatureOfInterest ex-data:BrutoInhoudVergaderzaalruimte_11_32 ;
+    sosa:usedProcedure ex-data:NEN2580BrutoInhoudBepaling ;
+    sosa:hasSimpleResult "150 m3" .
+
+ex-data:Tarra_meting_12345 a sosa:Observation ;
+    sosa:hasFeatureOfInterest ex-data:TarraInhoudWand_1234 ;
+    sosa:usedProcedure ex-data:NEN2580TarraInhoudBepaling ;
+    sosa:hasResult ex-data:TarraQuantityValue_12345 .
+
+ex-data:TarraQuantityValue_12345 a qudt:QuantityValue ;
+    qudt:numericValue "3"^^xsd:double ;
+    qudt:unit unit:M3 .
+
+# --- Geometrie: GeoSPARQL ---
+# De constructiewand heeft een WKT-geometrie in geografische coördinaten.
+
+ex-data:Constructiewand_7689 geo:hasGeometry ex-data:Constructiewand_7689_geometrie .
+
+ex-data:Constructiewand_7689_geometrie a geo:Geometry ;
+    geo:asWKT "POLYGON((4.875 52.375, 4.875 52.376, 4.876 52.376, 4.876 52.375, 4.875 52.375))"^^geo:wktLiteral .

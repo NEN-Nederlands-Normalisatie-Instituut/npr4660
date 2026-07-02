@@ -1,0 +1,113 @@
+# Figuur 24 – Fysiek gebouw gedecomponeerd
+# Toont de hiërarchische opbouw van een gebouw: het fysieke gebouw bevat inpandige ruimten
+# die elk worden geïmplementeerd door een specifieke functionele ruimte.
+# InpandigeRuimte is tegelijk een RuimtelijkGebied en een TechnischeEntiteit.
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.organization.com/def/figuur24/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 24"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: functionele entiteiten (bestemming van de ruimte) ---
+
+ex-ont:Appartementencomplex a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Appartementencomplex"@nl .
+
+ex-ont:Binnenplaats a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Binnenplaats"@nl .
+
+ex-ont:Parkeergelegenheid a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Parkeergelegenheid"@nl .
+
+ex-ont:Etage a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Etage"@nl .
+
+ex-ont:Hal a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Hal"@nl .
+
+ex-ont:Trappenhuis a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Trappenhuis"@nl .
+
+# --- Klassen: fysieke ruimtelijke gebieden (technische opbouw) ---
+
+ex-ont:Gebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:prefLabel "Gebouw"@nl .
+
+# InpandigeRuimte is het technische ruimtelijk gebied binnen het gebouw.
+ex-ont:InpandigeRuimte a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Inpandige ruimte"@nl .
+
+# Subtypes van InpandigeRuimte, elk corresponderend met een functionele bestemming.
+ex-ont:Binnenplaatsruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Binnenplaatsruimte"@nl .
+
+ex-ont:Parkeergarageruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Parkeergarageruimte"@nl .
+
+ex-ont:Etageruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Etageruimte"@nl .
+
+ex-ont:Halruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Halruimte"@nl .
+
+ex-ont:Trappenhuisruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Trappenhuisruimte"@nl .
+
+# --- Instanties ---
+
+ex-data:Appartementencomplex_abcd a ex-ont:Appartementencomplex .
+ex-data:Binnenplaats_1 a ex-ont:Binnenplaats .
+ex-data:Parkeergelegenheid_1 a ex-ont:Parkeergelegenheid .
+ex-data:Etage_1 a ex-ont:Etage .
+ex-data:Hal_1 a ex-ont:Hal .
+ex-data:Trappenhuis_1 a ex-ont:Trappenhuis .
+
+ex-data:Gebouw_efgh a ex-ont:Gebouw .
+ex-data:Binnenplaatsruimte_1 a ex-ont:Binnenplaatsruimte .
+ex-data:Parkeergarageruimte_1 a ex-ont:Parkeergarageruimte .
+ex-data:Etageruimte_1 a ex-ont:Etageruimte .
+ex-data:Halruimte_1 a ex-ont:Halruimte .
+ex-data:Trappenhuisruimte_1 a ex-ont:Trappenhuisruimte .
+
+# --- Relaties ---
+
+# Het appartementencomplex als functionele entiteit wordt geïmplementeerd door het fysieke gebouw.
+ex-data:Appartementencomplex_abcd nen2660:isImplementedBy ex-data:Gebouw_efgh .
+
+# Het gebouw heeft de inpandige ruimten als fysieke onderdelen.
+ex-data:Gebouw_efgh nen2660:hasPart ex-data:Binnenplaatsruimte_1,
+                                     ex-data:Parkeergarageruimte_1,
+                                     ex-data:Etageruimte_1,
+                                     ex-data:Halruimte_1,
+                                     ex-data:Trappenhuisruimte_1 .
+
+# Elke inpandige ruimte wordt geïmplementeerd door de bijbehorende functionele entiteit.
+ex-data:Binnenplaatsruimte_1 nen2660:isImplementedBy ex-data:Binnenplaats_1 .
+ex-data:Parkeergarageruimte_1 nen2660:isImplementedBy ex-data:Parkeergelegenheid_1 .
+ex-data:Etageruimte_1 nen2660:isImplementedBy ex-data:Etage_1 .
+ex-data:Halruimte_1 nen2660:isImplementedBy ex-data:Hal_1 .
+ex-data:Trappenhuisruimte_1 nen2660:isImplementedBy ex-data:Trappenhuis_1 .

@@ -1,0 +1,87 @@
+# Figuur 19 – Implementatie van zonering als FunctioneleEntiteit
+# Toont hoe een brandcompartiment wordt gemodelleerd als een functionele entiteit
+# (BrandcompartimentFunctie) die wordt geïmplementeerd door een ruimtelijk gebied
+# (BrandcompartimentImplementatie). De fysieke begrenzing bestaat uit constructiewanden.
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
+
+<http://data.organization.com/def/figuur19/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 19"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: wanden als fysieke begrenzing ---
+
+ex-ont:Wand a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcWall ;
+    skos:prefLabel "Wand"@nl .
+
+# Een constructiewand is de dragende of scheidende wand van het gebouw.
+ex-ont:Constructiewand a rdfs:Class ;
+    rdfs:subClassOf ex-ont:Wand ;
+    skos:prefLabel "Constructiewand"@nl .
+
+# Een separatiewand scheidt brandcompartimenten van elkaar.
+ex-ont:SeparatieWand a rdfs:Class ;
+    rdfs:subClassOf ex-ont:Wand ;
+    skos:prefLabel "Separatiewand"@nl .
+
+# --- Klassen: brandcompartiment ---
+
+# De functie vertegenwoordigt de brandveiligheidseis (WAT er moet zijn).
+ex-ont:BrandcompartimentFunctie a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Brandcompartiment functie"@nl ;
+    skos:definition "Functionele entiteit die de brandveiligheidseis voor een compartiment vertegenwoordigt."@nl .
+
+# De implementatie is het ruimtelijk gebied dat de eis realiseert (HOE het gerealiseerd is).
+# Komt overeen met IfcSpatialZone in IFC.
+ex-ont:BrandcompartimentImplementatie a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf ifc4_3:IfcSpatialZone ;
+    skos:prefLabel "Brandcompartiment implementatie"@nl ;
+    skos:definition "Ruimtelijk gebied dat de fysieke begrenzing van een brandcompartiment definieert."@nl .
+
+# --- Klassen: ruimten binnen het compartiment ---
+
+ex-ont:InpandigeRuimte a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Inpandige ruimte"@nl .
+
+ex-ont:NettoInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Netto-inhoud"@nl .
+
+# --- Instanties ---
+
+ex-data:Constructiewand_7689 a ex-ont:Constructiewand .
+ex-data:SeparatieWand_5678 a ex-ont:SeparatieWand .
+ex-data:BrandcompartimentFunctie_xyz a ex-ont:BrandcompartimentFunctie .
+ex-data:BrandcompartimentImplementatie_xyz a ex-ont:BrandcompartimentImplementatie .
+ex-data:NettoInhoudVergaderzaalruimte_11_32 a ex-ont:NettoInhoud .
+
+# --- Relaties ---
+
+# De constructiewand bevat de separatiewand als onderdeel.
+ex-data:Constructiewand_7689 nen2660:contains ex-data:SeparatieWand_5678 .
+
+# Het brandcompartiment wordt fysiek begrensd door de constructiewand.
+ex-data:BrandcompartimentImplementatie_xyz nen2660:isBoundedBy ex-data:Constructiewand_7689 .
+
+# De functionele eis wordt geïmplementeerd door het ruimtelijk gebied.
+ex-data:BrandcompartimentFunctie_xyz nen2660:isImplementedBy ex-data:BrandcompartimentImplementatie_xyz .
+
+# De netto-inhoud van de vergaderzaal valt binnen dit brandcompartiment.
+ex-data:BrandcompartimentFunctie_xyz nen2660:hasPart ex-data:NettoInhoudVergaderzaalruimte_11_32 .
