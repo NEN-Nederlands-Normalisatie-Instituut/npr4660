@@ -49,6 +49,24 @@ ex-ont:BouwkundigElement a rdfs:Class ;
 ex-ont:naam a rdf:Property ;
     skos:prefLabel "Naam"@nl, "Name"@en .
 
+ex-ont:BouwdeelShape a sh:NodeShape ;
+    sh:targetClass ex-ont:Bouwdeel ;
+    sh:property [
+        sh:path nen2660:isImplementedBy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Een Bouwdeel moet precies één implementatie hebben."@nl ;
+    ] .
+
+ex-ont:BouwkundigElementShape a sh:NodeShape ;
+    sh:targetClass ex-ont:BouwkundigElement ;
+    sh:property [
+        sh:path nen2660:isImplementedBy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Een BouwkundigElement moet precies één implementatie hebben."@nl ;
+    ] .
+
 ex-data:DraagConstructie_123 a ex-ont:DraagConstructie .
 
 ex-data:VentilatieSysteem_123 a ex-ont:VentilatieSysteemEenheid .

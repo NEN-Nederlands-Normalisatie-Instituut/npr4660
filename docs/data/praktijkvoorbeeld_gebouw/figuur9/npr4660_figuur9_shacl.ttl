@@ -5,8 +5,16 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex-ont:Gebouw a owl:Class ;
+<http://data.organization.com/def/figuur9/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 9 (SHACL)"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+ex-ont:Gebouw a rdfs:Class ;
     skos:definition "Bouwwerk dat begrensd, betreedbaar en afsluitbaar is."@nl, "A structure that is enclosed, accessible and lockable."@en ;
     skos:prefLabel "Gebouw"@nl , "Building"@en ;
     rdfs:subClassOf nen2660:PhysicalObject .

@@ -1,11 +1,19 @@
 @prefix ex-ont: <http://data.organization.com/def/> .
 @prefix ex-data: <http://data.organization.com/id/> .
 @prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
 @prefix ifc: <https://w3id.org/ifc/IFC4#> .
+
+<http://data.organization.com/def/figuur11/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 11"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
 
 ex-ont:DiscreetGebouw a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject .
@@ -29,6 +37,39 @@ ex-ont:DraagConstructieSysteem a rdfs:Class ;
 
 ex-ont:VentilatieSysteem a rdfs:Class ;
     rdfs:subClassOf ifc4_3:IfcSystem .
+
+ex-ont:DiscreetGebouwShape a sh:NodeShape ;
+    sh:targetClass ex-ont:DiscreetGebouw ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:VentilatieSysteemEenheid ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een DiscreetGebouw moet minimaal één VentilatieSysteemEenheid als deel hebben."@nl ;
+    ] ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:DraagConstructie ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een DiscreetGebouw moet minimaal één DraagConstructie als deel hebben."@nl ;
+    ] .
+
+ex-ont:DraagConstructieShape a sh:NodeShape ;
+    sh:targetClass ex-ont:DraagConstructie ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:DragendeWand ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een DraagConstructie moet minimaal één DragendeWand als deel hebben."@nl ;
+    ] .
+
+ex-ont:VentilatieSysteemShape a sh:NodeShape ;
+    sh:targetClass ex-ont:VentilatieSysteem ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:Ventilator ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een VentilatieSysteem moet minimaal één Ventilator als deel hebben."@nl ;
+    ] .
 
 ex-data:DiscreetGebouw_123 a ex-ont:DiscreetGebouw .
 ex-data:Ventilator_123 a ex-ont:Ventilator .
