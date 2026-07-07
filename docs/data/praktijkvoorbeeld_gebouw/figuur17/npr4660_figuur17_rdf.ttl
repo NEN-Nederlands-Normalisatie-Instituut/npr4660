@@ -1,0 +1,82 @@
+# Figuur 17 – Netto- en bruto-inhoud als implementatie
+# Toont hoe een Vergaderzaal (functionele entiteit) meerdere implementaties heeft:
+# een netto-inhoud (IfcSpace) en een bruto-inhoud. De tarra is het verschil
+# tussen beide en omsluit de fysieke constructie-elementen (wanden).
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
+
+<http://data.organization.com/def/figuur17/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 17"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: functioneel ruimtegebruik ---
+
+# Vergaderzaal is tegelijk een FunctioneleEntiteit en een RuimtelijkGebied.
+ex-ont:Vergaderzaal a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Vergaderzaal"@nl .
+
+# --- Klassen: bepalingsmethoden voor inhoudsberekening (NEN 2580) ---
+
+ex-ont:InpandigeRuimte a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Inpandige ruimte"@nl .
+
+# Netto-inhoud is de bruikbare ruimte; komt overeen met IfcSpace in IFC.
+ex-ont:NettoInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    rdfs:subClassOf ifc4_3:IfcSpace ;
+    skos:prefLabel "Netto-inhoud"@nl ;
+    skos:definition "Inpandige ruimte bepaald volgens NEN 2580 netto-inhoud methode."@nl .
+
+# Bruto-inhoud omvat ook de constructie-elementen.
+ex-ont:BrutoInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Bruto-inhoud"@nl ;
+    skos:definition "Inpandige ruimte bepaald volgens NEN 2580 bruto-inhoud methode."@nl .
+
+# Tarra-inhoud is het volume van de constructie-elementen (bruto minus netto).
+ex-ont:TarraInhoud a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Tarra-inhoud"@nl ;
+    skos:definition "Verschil tussen bruto- en netto-inhoud, ingenomen door constructie-elementen."@nl .
+
+# --- Klassen: fysieke constructie ---
+
+ex-ont:Wand a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcWall ;
+    skos:prefLabel "Wand"@nl .
+
+# --- Instanties ---
+
+ex-data:Vergaderzaal_11_32 a ex-ont:Vergaderzaal .
+ex-data:NettoInhoudVergaderzaalruimte_11_32 a ex-ont:NettoInhoud .
+ex-data:BrutoInhoudVergaderzaalruimte_11_32 a ex-ont:BrutoInhoud .
+ex-data:TarraInhoudWand_1234 a ex-ont:TarraInhoud .
+ex-data:Wand_1234 a ex-ont:Wand .
+
+# --- Relaties ---
+
+# De vergaderzaal heeft zowel een netto- als bruto-implementatie.
+ex-data:Vergaderzaal_11_32 nen2660:isImplementedBy ex-data:NettoInhoudVergaderzaalruimte_11_32,
+                                                    ex-data:BrutoInhoudVergaderzaalruimte_11_32 .
+
+# De bruto-inhoud bevat de tarra (het volume van de wand).
+ex-data:BrutoInhoudVergaderzaalruimte_11_32 nen2660:contains ex-data:TarraInhoudWand_1234 .
+
+# De tarra-inhoud bevat de wand zelf als fysiek object.
+ex-data:TarraInhoudWand_1234 nen2660:contains ex-data:Wand_1234 .

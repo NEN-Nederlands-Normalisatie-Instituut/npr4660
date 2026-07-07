@@ -1,49 +1,97 @@
-@prefix ex: <http://example.org/id/> .
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
 @prefix nen2660: <https://w3id.org/nen2660/def#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
 @prefix ifc: <https://w3id.org/ifc/IFC4#> .
 
-ex:DiscreetGebouw a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
+<http://data.organization.com/def/figuur11/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 11"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
 
-ex:DraagConstructie a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
-
-ex:DragendeWand a rdfs:Class ;
+ex-ont:DiscreetGebouw a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject ;
-    rdfs:subClassOf ifc4_3:IfcProduct .
+    skos:prefLabel "Discreet gebouw"@nl .
 
-ex:VentilatieSysteemEenheid a rdfs:Class ;
-    rdfs:subClassOf nen2660:DiscreteObject .
-
-ex:Ventilator a rdfs:Class ;
+ex-ont:DraagConstructie a rdfs:Class ;
     rdfs:subClassOf nen2660:DiscreteObject ;
-    rdfs:subClassOf ifc4_3:IfcProduct .
+    skos:prefLabel "Draagconstructie"@nl .
 
-ex:DraagConstructieSysteem a rdfs:Class ;
-    rdfs:subClassOf ifc4_3:IfcSystem .
+ex-ont:DragendeWand a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcProduct ;
+    skos:prefLabel "Dragende wand"@nl .
 
-ex:VentilatieSysteem a rdfs:Class ;
-    rdfs:subClassOf ifc4_3:IfcSystem .
+ex-ont:VentilatieSysteemEenheid a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Ventilatiesysteem eenheid"@nl .
 
-ex:DiscreetGebouw_123 a ex:DiscreetGebouw .
-ex:Ventilator_123 a ex:Ventilator .
-ex:VentilatieSysteem_123 a ex:VentilatieSysteem .
-ex:VentilatieSysteemEenheid_123 a ex:VentilatieSysteemEenheid .
-ex:DragendeWand_123 a ex:DragendeWand .
-ex:DraagConstructie_123 a ex:DraagConstructie .
-ex:DraagConstructieSysteem_123 a ex:DraagConstructieSysteem .
+ex-ont:Ventilator a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcProduct ;
+    skos:prefLabel "Ventilator"@nl .
 
-ex:DiscreetGebouw_123 nen2660:hasPart ex:VentilatieSysteemEenheid_123, ex:DraagConstructie_123 .
+ex-ont:DraagConstructieSysteem a rdfs:Class ;
+    rdfs:subClassOf ifc4_3:IfcSystem ;
+    skos:prefLabel "Draagconstructiesysteem"@nl .
 
-ex:VentilatieSysteem_123 nen2660:hasPart ex:Ventilator_123 . 
-ex:DraagConstructie_123 nen2660:hasPart ex:DragendeWand_123 .
+ex-ont:VentilatieSysteem a rdfs:Class ;
+    rdfs:subClassOf ifc4_3:IfcSystem ;
+    skos:prefLabel "Ventilatiesysteem"@nl .
 
-ex:RelAssignedToGroup_123 a ifc:IfcRelAssignedToGroup ;
-    ifc:relatingGroup ex:VentilatieSysteem_123 ;
-    ifc:relatedObjects ex:Ventilator_123 .
+ex-ont:DiscreetGebouwShape a sh:NodeShape ;
+    sh:targetClass ex-ont:DiscreetGebouw ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:VentilatieSysteemEenheid ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een DiscreetGebouw moet minimaal één VentilatieSysteemEenheid als deel hebben."@nl ;
+    ] ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:DraagConstructie ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een DiscreetGebouw moet minimaal één DraagConstructie als deel hebben."@nl ;
+    ] .
 
+ex-ont:DraagConstructieShape a sh:NodeShape ;
+    sh:targetClass ex-ont:DraagConstructie ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:DragendeWand ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een DraagConstructie moet minimaal één DragendeWand als deel hebben."@nl ;
+    ] .
+
+ex-ont:VentilatieSysteemShape a sh:NodeShape ;
+    sh:targetClass ex-ont:VentilatieSysteem ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:Ventilator ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een VentilatieSysteem moet minimaal één Ventilator als deel hebben."@nl ;
+    ] .
+
+ex-data:DiscreetGebouw_123 a ex-ont:DiscreetGebouw .
+ex-data:Ventilator_123 a ex-ont:Ventilator .
+ex-data:VentilatieSysteem_123 a ex-ont:VentilatieSysteem .
+ex-data:VentilatieSysteemEenheid_123 a ex-ont:VentilatieSysteemEenheid .
+ex-data:DragendeWand_123 a ex-ont:DragendeWand .
+ex-data:DraagConstructie_123 a ex-ont:DraagConstructie .
+ex-data:DraagConstructieSysteem_123 a ex-ont:DraagConstructieSysteem .
+
+ex-data:DiscreetGebouw_123 nen2660:hasPart ex-data:VentilatieSysteemEenheid_123, ex-data:DraagConstructie_123 .
+
+ex-data:VentilatieSysteem_123 nen2660:hasPart ex-data:Ventilator_123 .
+ex-data:DraagConstructie_123 nen2660:hasPart ex-data:DragendeWand_123 .
+
+ex-data:RelAssignedToGroup_123 a ifc:IfcRelAssignedToGroup ;
+    ifc:relatingGroup ex-data:VentilatieSysteem_123 ;
+    ifc:relatedObjects ex-data:Ventilator_123 .

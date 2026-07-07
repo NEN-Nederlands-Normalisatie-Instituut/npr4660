@@ -3,30 +3,21 @@
 @prefix nen2660: <https://w3id.org/nen2660/def#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://data.organization.com/def/figuur9/> a owl:Ontology ;
-    rdfs:label "Gebouwontologie - Figuur 9 (OWL)"@nl ;
+    rdfs:label "Gebouwontologie - Figuur 9 (SHACL)"@nl ;
     owl:versionInfo "0.1"^^xsd:string ;
     dct:date "2026-07-02"^^xsd:date ;
     owl:imports <https://w3id.org/nen2660/rdfs/def> .
 
-ex-ont:Gebouw a owl:Class ;
+ex-ont:Gebouw a rdfs:Class ;
     skos:definition "Bouwwerk dat begrensd, betreedbaar en afsluitbaar is."@nl, "A structure that is enclosed, accessible and lockable."@en ;
     skos:prefLabel "Gebouw"@nl , "Building"@en ;
-    rdfs:subClassOf nen2660:PhysicalObject ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty nen2660:hasPart ;
-        owl:someValuesFrom ex-ont:DiscreetGebouw
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty nen2660:hasPart ;
-        owl:someValuesFrom ex-ont:InpandigeRuimteGebouw
-    ] .
+    rdfs:subClassOf nen2660:PhysicalObject .
 
 ex-ont:InpandigeRuimteGebouw a rdfs:Class ;
     rdfs:subClassOf nen2660:SpatialRegion ;
@@ -44,6 +35,21 @@ ex-ont:Etageruimte a rdfs:Class ;
 ex-ont:Gipswand a rdfs:Class ;
     rdfs:subClassOf nen2660:TechnicalEntity ;
     skos:prefLabel "Gipswand"@nl .
+
+ex-ont:GebouwShape a sh:NodeShape ;
+    sh:targetClass ex-ont:Gebouw ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:DiscreetGebouw ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een Gebouw moet minimaal één DiscreetGebouw als deel hebben."@nl ;
+    ] ;
+    sh:property [
+        sh:path nen2660:hasPart ;
+        sh:qualifiedValueShape [ sh:class ex-ont:InpandigeRuimteGebouw ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Een Gebouw moet minimaal één InpandigeRuimteGebouw als deel hebben."@nl ;
+    ] .
 
 ex-data:Gebouw_123 a ex-ont:Gebouw .
 

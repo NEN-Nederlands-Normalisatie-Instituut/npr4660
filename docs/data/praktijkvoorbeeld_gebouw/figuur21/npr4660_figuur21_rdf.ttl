@@ -1,0 +1,98 @@
+# Figuur 21 – Functioneel en technisch RuimtelijkGebied
+# Illustreert het kwadrantenmodel voor ruimtelijke gebieden aan de hand van een ziekenhuis.
+# Een functionele entiteit (Ziekenhuis, Etage, Vergaderzaal) wordt geïmplementeerd
+# door een technisch ruimtelijk gebied (Gebouw, Etageruimte).
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.organization.com/def/figuur21/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 21"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: functionele entiteiten (WAT een ruimte is bedoeld voor) ---
+
+# Ziekenhuis is zowel een FunctioneleEntiteit als een RuimtelijkGebied.
+ex-ont:Ziekenhuis a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Ziekenhuis"@nl .
+
+ex-ont:Etage a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Etage"@nl .
+
+# Verdieping en Kelder zijn subtypes van Etage.
+ex-ont:Verdieping a rdfs:Class ;
+    rdfs:subClassOf ex-ont:Etage ;
+    skos:prefLabel "Verdieping (etage bovengronds)"@nl .
+
+ex-ont:Kelder a rdfs:Class ;
+    rdfs:subClassOf ex-ont:Etage ;
+    skos:prefLabel "Kelder"@nl .
+
+ex-ont:Vergaderzaal a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Vergaderzaal"@nl .
+
+ex-ont:Operatiekamer a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Operatiekamer"@nl .
+
+ex-ont:Brandcompartiment a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "Brandcompartiment"@nl .
+
+# --- Klassen: fysiek object en technisch ruimtelijk gebied (HOE het gerealiseerd is) ---
+
+ex-ont:Gebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:prefLabel "Gebouw"@nl .
+
+# InpandigeRuimte is het technische ruimtelijk gebied dat de functionele ruimte implementeert.
+ex-ont:InpandigeRuimte a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Inpandige ruimte"@nl .
+
+ex-ont:Etageruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimte ;
+    skos:prefLabel "Etageruimte"@nl .
+
+# --- Instanties ---
+
+ex-data:ZiekenhuisUtrecht a ex-ont:Ziekenhuis .
+ex-data:Etage_11 a ex-ont:Verdieping .
+ex-data:Vergaderzaal_11_32 a ex-ont:Vergaderzaal .
+ex-data:OK_1_01 a ex-ont:Operatiekamer .
+ex-data:BrandcompartimentB1 a ex-ont:Brandcompartiment .
+ex-data:Etageruimte_11 a ex-ont:Etageruimte .
+ex-data:Gebouw_ziekenhuis a ex-ont:Gebouw .
+
+# --- Relaties ---
+
+# Het ziekenhuis als functionele entiteit heeft etage 11 als onderdeel
+# en wordt fysiek geïmplementeerd door het gebouw.
+ex-data:ZiekenhuisUtrecht nen2660:hasPart ex-data:Etage_11 .
+ex-data:ZiekenhuisUtrecht nen2660:isImplementedBy ex-data:Gebouw_ziekenhuis .
+
+# Etage 11 bevat de vergaderzaal, operatiekamer en het brandcompartiment als functionele delen.
+ex-data:Etage_11 nen2660:hasPart ex-data:Vergaderzaal_11_32,
+                                  ex-data:OK_1_01,
+                                  ex-data:BrandcompartimentB1 .
+
+# De fysieke etageruimte is de technische implementatie van de functionele etage.
+ex-data:Etage_11 nen2660:isImplementedBy ex-data:Etageruimte_11 .
+
+ex-data:Gebouw_ziekenhuis nen2660:hasPart ex-data:Etageruimte_11 .

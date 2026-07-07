@@ -1,0 +1,96 @@
+# Figuur 13 – Gebouw als RuimtelijkGebied en DiscreetObject
+# Toont hoe een gebouw tegelijk is gemodelleerd als ruimtelijk gebied (InpandigeRuimteGebouw)
+# en als discreet object (DiscreetGebouw), met koppeling aan BAG (Pand, Verblijfsobject) en IFC.
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bag: <https://bag.basisregistraties.overheid.nl/bag/def#> .
+@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
+
+<http://data.organization.com/def/figuur13/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 13"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: fysiek gebouw ---
+
+ex-ont:Gebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:prefLabel "Gebouw"@nl, "Building"@en ;
+    skos:definition "Bouwwerk dat begrensd, betreedbaar en afsluitbaar is."@nl .
+
+# Het DiscreetGebouw is de fysieke schil; de InpandigeRuimteGebouw is het bijbehorende ruimtelijke gebied.
+ex-ont:DiscreetGebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Discreet gebouw"@nl .
+
+ex-ont:InpandigeRuimteGebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf ifc4_3:IfcBuilding ;
+    skos:prefLabel "Inpandige ruimte gebouw"@nl .
+
+ex-ont:Etageruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimteGebouw ;
+    rdfs:subClassOf ifc4_3:IfcBuildingStorey ;
+    skos:prefLabel "Etageruimte"@nl .
+
+# --- Klassen: functioneel gebruik (VERA/BAG) ---
+
+# GebruiksFunctie is zowel een FunctioneleEntiteit als een RuimtelijkGebied.
+ex-ont:GebruiksFunctie a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Gebruiksfunctie"@nl .
+
+ex-ont:Woonfunctie a rdfs:Class ;
+    rdfs:subClassOf ex-ont:GebruiksFunctie ;
+    skos:prefLabel "Woonfunctie"@nl .
+
+# --- Klassen: BAG-registratie ---
+
+# Pand en Verblijfsobject zijn de administratieve tegenhanger van het fysieke gebouw.
+ex-ont:Pand a rdfs:Class ;
+    rdfs:subClassOf bag:Pand ;
+    skos:prefLabel "Pand"@nl .
+
+ex-ont:Verblijfsobject a rdfs:Class ;
+    rdfs:subClassOf bag:Verblijfsobject ;
+    skos:prefLabel "Verblijfsobject"@nl .
+
+# --- Instanties ---
+
+ex-data:Gebouw_bcd a ex-ont:Gebouw .
+ex-data:DiscreetGebouw_xyz a ex-ont:DiscreetGebouw .
+ex-data:InpandigeRuimteGebouw_1234 a ex-ont:InpandigeRuimteGebouw .
+ex-data:BegandeGrondRuimte_00 a ex-ont:Etageruimte .
+ex-data:Pand_xyz a ex-ont:Pand .
+ex-data:GebruiksFunctie_abcd a ex-ont:GebruiksFunctie .
+ex-data:KeukenRuimte_hijk a ex-ont:GebruiksFunctie .
+ex-data:Woonfunctie_defg a ex-ont:Woonfunctie .
+ex-data:Verblijfsobject_uvw a ex-ont:Verblijfsobject .
+
+# --- Relaties ---
+
+# Het gebouw heeft zowel een ruimtelijk als een discreet deel,
+# en is begrensd door het bijbehorende BAG-pand.
+ex-data:Gebouw_bcd nen2660:hasPart ex-data:InpandigeRuimteGebouw_1234,
+                                    ex-data:DiscreetGebouw_xyz ;
+    nen2660:isBoundedBy ex-data:Pand_xyz .
+
+ex-data:InpandigeRuimteGebouw_1234 nen2660:hasPart ex-data:BegandeGrondRuimte_00 .
+
+# Het BAG-pand bevat het bijbehorende verblijfsobject.
+ex-data:Pand_xyz nen2660:hasPart ex-data:Verblijfsobject_uvw .
+
+# De woonfunctie wordt geïmplementeerd door de concrete gebruiksfunctie.
+ex-data:Woonfunctie_defg nen2660:isImplementedBy ex-data:GebruiksFunctie_abcd .
+
+ex-data:GebruiksFunctie_abcd nen2660:hasPart ex-data:KeukenRuimte_hijk .

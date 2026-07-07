@@ -1,0 +1,182 @@
+# Figuur 14 – Totaal ruimtelijk en fysiek gebouw
+# Integraal model dat de concepten uit figuur 9 t/m 13 samenvoegt:
+# fysiek gebouw (NEN 2660), inpandige ruimten (IFC), gebruiksfuncties (BAG),
+# CORA/VERA bouwdelen en IFC-systemen in één samenhangend voorbeeld.
+
+@prefix ex-ont: <http://data.organization.com/def/> .
+@prefix ex-data: <http://data.organization.com/id/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bag: <https://bag.basisregistraties.overheid.nl/bag/def#> .
+@prefix ifc4_3: <https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/> .
+@prefix ifc: <https://w3id.org/ifc/IFC4#> .
+
+<http://data.organization.com/def/figuur14/> a owl:Ontology ;
+    rdfs:label "Gebouwontologie - Figuur 14"@nl ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    dct:date "2026-07-02"^^xsd:date ;
+    owl:imports <https://w3id.org/nen2660/rdfs/def> .
+
+# --- Klassen: fysiek gebouw en ruimtelijke indeling ---
+
+ex-ont:Gebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:prefLabel "Gebouw"@nl, "Building"@en ;
+    skos:definition "Bouwwerk dat begrensd, betreedbaar en afsluitbaar is."@nl .
+
+ex-ont:DiscreetGebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Discreet gebouw"@nl .
+
+ex-ont:InpandigeRuimteGebouw a rdfs:Class ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    rdfs:subClassOf ifc4_3:IfcBuilding ;
+    skos:prefLabel "Inpandige ruimte gebouw"@nl .
+
+ex-ont:Etageruimte a rdfs:Class ;
+    rdfs:subClassOf ex-ont:InpandigeRuimteGebouw ;
+    rdfs:subClassOf ifc4_3:IfcBuildingStorey ;
+    skos:prefLabel "Etageruimte"@nl .
+
+# --- Klassen: draagconstructie en ventilatie (uit figuur 11) ---
+
+ex-ont:DraagConstructie a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Draagconstructie"@nl .
+
+ex-ont:DragendeWand a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcProduct ;
+    skos:prefLabel "Dragende wand"@nl .
+
+ex-ont:GipsWand a rdfs:Class ;
+    rdfs:subClassOf nen2660:TechnicalEntity ;
+    skos:prefLabel "Gipswand"@nl .
+
+ex-ont:VentilatieSysteemEenheid a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    skos:prefLabel "Ventilatiesysteem eenheid"@nl .
+
+ex-ont:Ventilator a rdfs:Class ;
+    rdfs:subClassOf nen2660:DiscreteObject ;
+    rdfs:subClassOf ifc4_3:IfcProduct ;
+    skos:prefLabel "Ventilator"@nl .
+
+ex-ont:DraagConstructieSysteem a rdfs:Class ;
+    rdfs:subClassOf ifc4_3:IfcSystem ;
+    skos:prefLabel "Draagconstructiesysteem"@nl .
+
+ex-ont:VentilatieSysteem a rdfs:Class ;
+    rdfs:subClassOf ifc4_3:IfcSystem ;
+    skos:prefLabel "Ventilatiesysteem"@nl .
+
+# --- Klassen: CORA/VERA bouwdelen (uit figuur 10) ---
+
+ex-ont:Bouwdeel a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "VERA 4.1 Bouwdeel"@nl ;
+    dct:source <https://www.coraveraonline.nl/index.php/Id-d8a421c6-6b1d-d52a-afc7-a247bea2022c> .
+
+ex-ont:BouwkundigElement a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    skos:prefLabel "VERA 4.1 BouwkundigElement"@nl ;
+    dct:source <https://www.coraveraonline.nl/index.php/Id-d8a421c6-6b1d-d52a-afc7-a247bea2022c> .
+
+# --- Klassen: BAG en functionele entiteiten (uit figuur 13) ---
+
+ex-ont:GebruiksFunctie a rdfs:Class ;
+    rdfs:subClassOf nen2660:FunctionalEntity ;
+    rdfs:subClassOf nen2660:SpatialRegion ;
+    skos:prefLabel "Gebruiksfunctie"@nl .
+
+ex-ont:Woonfunctie a rdfs:Class ;
+    rdfs:subClassOf ex-ont:GebruiksFunctie ;
+    skos:prefLabel "Woonfunctie"@nl .
+
+ex-ont:Pand a rdfs:Class ;
+    rdfs:subClassOf bag:Pand ;
+    skos:prefLabel "Pand"@nl .
+
+ex-ont:Verblijfsobject a rdfs:Class ;
+    rdfs:subClassOf bag:Verblijfsobject ;
+    skos:prefLabel "Verblijfsobject"@nl .
+
+ex-ont:naam a rdf:Property ;
+    skos:prefLabel "Naam"@nl, "Name"@en .
+
+# --- Instanties ---
+
+ex-data:Gebouw_bcd a ex-ont:Gebouw .
+ex-data:DiscreetGebouw_xyz a ex-ont:DiscreetGebouw .
+ex-data:InpandigeRuimteGebouw_1234 a ex-ont:InpandigeRuimteGebouw .
+ex-data:BegandeGrondRuimte_00 a ex-ont:Etageruimte .
+ex-data:Pand_xyz a ex-ont:Pand .
+ex-data:GebruiksFunctie_abcd a ex-ont:GebruiksFunctie .
+ex-data:KeukenRuimte_hijk a ex-ont:GebruiksFunctie .
+ex-data:Woonfunctie_defg a ex-ont:Woonfunctie .
+ex-data:Verblijfsobject_uvw a ex-ont:Verblijfsobject .
+
+ex-data:DraagConstructie_123 a ex-ont:DraagConstructie .
+ex-data:DragendeWand_123 a ex-ont:DragendeWand .
+ex-data:GipsWand_123 a ex-ont:GipsWand .
+ex-data:VentilatieSysteemEenheid_123 a ex-ont:VentilatieSysteemEenheid .
+ex-data:Ventilator_123 a ex-ont:Ventilator .
+ex-data:DraagConstructieSysteem_123 a ex-ont:DraagConstructieSysteem .
+ex-data:VentilatieSysteem_123 a ex-ont:VentilatieSysteem .
+
+ex-data:Bouwdeel_DraagConstructie_789 a ex-ont:Bouwdeel .
+ex-data:Bouwdeel_VentilatieSysteem_abc a ex-ont:Bouwdeel .
+ex-data:Bouwkundigelement_Ventilator_bcd a ex-ont:BouwkundigElement .
+ex-data:Bouwkundigelement_DragendeWand_def a ex-ont:BouwkundigElement .
+
+# --- Relaties: ruimtelijk en fysiek ---
+
+ex-data:Gebouw_bcd nen2660:hasPart ex-data:InpandigeRuimteGebouw_1234,
+                                    ex-data:DiscreetGebouw_xyz ;
+    nen2660:isBoundedBy ex-data:Pand_xyz .
+
+ex-data:InpandigeRuimteGebouw_1234 nen2660:hasPart ex-data:BegandeGrondRuimte_00 .
+
+ex-data:Pand_xyz nen2660:hasPart ex-data:Verblijfsobject_uvw .
+
+ex-data:Woonfunctie_defg nen2660:isImplementedBy ex-data:GebruiksFunctie_abcd .
+ex-data:GebruiksFunctie_abcd nen2660:hasPart ex-data:KeukenRuimte_hijk .
+
+# --- Relaties: discreet gebouw met fysieke onderdelen ---
+
+ex-data:DiscreetGebouw_xyz nen2660:hasPart ex-data:DraagConstructie_123,
+                                            ex-data:VentilatieSysteemEenheid_123,
+                                            ex-data:GipsWand_123 .
+
+ex-data:DraagConstructie_123 nen2660:hasPart ex-data:DragendeWand_123 .
+ex-data:VentilatieSysteem_123 nen2660:hasPart ex-data:Ventilator_123 .
+
+# --- Relaties: CORA/VERA Bouwdelen ---
+# Bouwdelen implementeren de fysieke onderdelen en bevatten BouwkundigElementen.
+
+ex-data:Bouwdeel_DraagConstructie_789 nen2660:isImplementedBy ex-data:DraagConstructie_123 ;
+    nen2660:hasPart ex-data:Bouwkundigelement_DragendeWand_def .
+
+ex-data:Bouwdeel_VentilatieSysteem_abc nen2660:isImplementedBy ex-data:VentilatieSysteemEenheid_123 ;
+    nen2660:hasPart ex-data:Bouwkundigelement_Ventilator_bcd .
+
+ex-data:Bouwkundigelement_DragendeWand_def nen2660:isImplementedBy ex-data:DragendeWand_123 .
+ex-data:Bouwkundigelement_Ventilator_bcd nen2660:isImplementedBy ex-data:Ventilator_123 .
+
+# --- Relaties: IFC-systemen ---
+# IfcRelAssignedToGroup koppelt de IFC-systeemgroepen aan hun leden.
+
+ex-data:RelAssignedToGroup_DraagConstructie a ifc:IfcRelAssignedToGroup ;
+    ifc:relatingGroup ex-data:DraagConstructieSysteem_123 ;
+    ifc:relatedObjects ex-data:DragendeWand_123 .
+
+ex-data:RelAssignedToGroup_Ventilatie a ifc:IfcRelAssignedToGroup ;
+    ifc:relatingGroup ex-data:VentilatieSysteem_123 ;
+    ifc:relatedObjects ex-data:Ventilator_123 .
