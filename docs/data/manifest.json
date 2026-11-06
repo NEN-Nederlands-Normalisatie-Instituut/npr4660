@@ -26,61 +26,61 @@
           "id": "figuur13",
           "nr": 13,
           "pngFile": "npr4660_figuur13.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur13_rdf.ttl"
         },
         {
           "id": "figuur14",
           "nr": 14,
           "pngFile": "npr4660_figuur14.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur14_rdf.ttl"
         },
         {
           "id": "figuur17",
           "nr": 17,
           "pngFile": "npr4660_figuur17.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur17_rdf.ttl"
         },
         {
           "id": "figuur18",
           "nr": 18,
           "pngFile": "npr4660_figuur18.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur18_rdf.ttl"
         },
         {
           "id": "figuur19",
           "nr": 19,
           "pngFile": "npr4660_figuur19.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur19_rdf.ttl"
         },
         {
           "id": "figuur20",
           "nr": 20,
           "pngFile": "npr4660_figuur20.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur20_rdf.ttl"
         },
         {
           "id": "figuur21",
           "nr": 21,
           "pngFile": "npr4660_figuur21.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur21_rdf.ttl"
         },
         {
           "id": "figuur23",
           "nr": 23,
           "pngFile": "npr4660_figuur23.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur23_rdf.ttl"
         },
         {
           "id": "figuur24",
           "nr": 24,
           "pngFile": "npr4660_figuur24.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur24_rdf.ttl"
         },
         {
           "id": "figuur25",
           "nr": 25,
           "pngFile": "npr4660_figuur25.png",
-          "ttlFile": null
+          "ttlFile": "npr4660_figuur25_rdf.ttl"
         }
       ]
     }
